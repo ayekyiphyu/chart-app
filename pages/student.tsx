@@ -11,19 +11,19 @@ import {
   YAxis,
 } from "recharts";
 
-// Define an interface for the data you expect from the API response
 interface TransitionData {
-  year: string; // Adjust according to actual data field
-  employment: number; // Adjust according to actual data field
-  academic: number; // Adjust according to actual data field
+  year: string;
+  employment: number;
+  academic: number;
 }
 
 const API_KEY = "TeJMKn1SzMISYGHtaAfdKwxpTFaQINogLBSiHtyx";
 const BASE_URL = "https://opendata.resas-portal.go.jp";
-const endPoint = "api/v1/employEducation/localjobAcademic/toTransition";
+const endPoint =
+  "api/v1/employEducation/localjobAcademic/toTransition?prefecture_cd=28&displayMethod=0&matter=1&classification=1&displayType=10&gender=0";
 
 const TransitionPage = () => {
-  const [data, setData] = useState<TransitionData[] | null>(null);
+  const [data, setData] = useState<TransitionData[]>([]);
   const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 
@@ -36,21 +36,30 @@ const TransitionPage = () => {
             "Content-Type": "application/json",
           },
         });
-        // Log API response
-        console.log("API Response:", response.data);
 
-        // Process the API response to extract relevant data
-        // Adapt this according to the actual response structure
-        setData(
-          response.data.result.map((item: any) => ({
-            year: item.year, // Adjust according to actual data structure
-            employment: item.employment, // Adjust according to actual data structure
-            academic: item.academic, // Adjust according to actual data structure
-          }))
-        );
+        console.log("Full API Response:", response.data);
+
+        // Assuming response.data.result.data is the correct path based on typical API structures
+        if (
+          response.data &&
+          response.data.result &&
+          Array.isArray(response.data.result.data) &&
+          response.data.result.data.length > 0
+        ) {
+          const parsedData: TransitionData[] = response.data.result.data.map(
+            (item: { year: string; employment: number; academic: number }) => ({
+              year: item.year,
+              employment: item.employment,
+              academic: item.academic,
+            })
+          );
+          setData(parsedData);
+        } else {
+          setError("No data found in the API response.");
+        }
       } catch (error: any) {
         console.error("API Error:", error);
-        setError(error.message);
+        setError(error.response?.data?.message || error.message);
       } finally {
         setIsLoading(false);
       }
@@ -67,7 +76,7 @@ const TransitionPage = () => {
     return <div>Error: {error}</div>;
   }
 
-  if (!data) {
+  if (!data || data.length === 0) {
     return <div>No data available</div>;
   }
 

@@ -17,11 +17,13 @@ interface SidebarProps {
 }
 
 export default function Sidebar({ onChange }: SidebarProps) {
-  const [selectedValue, setSelectedValue] = useState("education");
+  // Separate state for each category if needed
+  const [filter, setFilter] = useState("education");
 
+  // Handle changes in radio buttons
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const value = (event.target as HTMLInputElement).value;
-    setSelectedValue(value);
+    setFilter(value);
     onChange(value);
   };
 
@@ -33,20 +35,21 @@ export default function Sidebar({ onChange }: SidebarProps) {
       <p className="pl-[15px]">
         <NextLink href="/city" passHref>
           <MuiLink className="text-blue-500 hover:underline">
-            都道府県一覧
+            兵庫県一覧
           </MuiLink>
         </NextLink>
       </p>
       <List>
         <ListItem>
           <FormControl component="fieldset">
+            {/* Display Category */}
             <FormLabel component="legend" className="font-bold text-[16px]">
               表示分類
             </FormLabel>
             <RadioGroup
               aria-label="display-category"
               name="display-category"
-              value={selectedValue}
+              value={filter}
               onChange={handleChange}
             >
               <FormControlLabel
@@ -59,12 +62,23 @@ export default function Sidebar({ onChange }: SidebarProps) {
                 control={<Radio />}
                 label="就職"
               />
-              <FormLabel
-                component="legend"
-                className="font-bold text-[16px] pt-[32px]"
-              >
-                表示内容
-              </FormLabel>
+            </RadioGroup>
+
+            <Divider className="my-2" />
+
+            {/* Display Content */}
+            <FormLabel
+              component="legend"
+              className="font-bold text-[16px] pt-[32px]"
+            >
+              表示内容
+            </FormLabel>
+            <RadioGroup
+              aria-label="display-content"
+              name="display-content"
+              value={filter}
+              onChange={handleChange}
+            >
               <FormControlLabel
                 value="local"
                 control={<Radio />}
@@ -85,12 +99,23 @@ export default function Sidebar({ onChange }: SidebarProps) {
                 control={<Radio />}
                 label="純流出"
               />
-              <FormLabel
-                component="legend"
-                className="font-bold text-[16px] pt-[32px]"
-              >
-                表示区分
-              </FormLabel>
+            </RadioGroup>
+
+            <Divider className="my-2" />
+
+            {/* Display Classification */}
+            <FormLabel
+              component="legend"
+              className="font-bold text-[16px] pt-[32px]"
+            >
+              表示区分
+            </FormLabel>
+            <RadioGroup
+              aria-label="display-classification"
+              name="display-classification"
+              value={filter}
+              onChange={handleChange}
+            >
               <FormControlLabel
                 value="all"
                 control={<Radio />}
@@ -106,13 +131,23 @@ export default function Sidebar({ onChange }: SidebarProps) {
                 control={<Radio />}
                 label="短期大学進学"
               />
+            </RadioGroup>
 
-              <FormLabel
-                component="legend"
-                className="font-bold text-[16px] pt-[32px]"
-              >
-                性別
-              </FormLabel>
+            <Divider className="my-2" />
+
+            {/* Gender */}
+            <FormLabel
+              component="legend"
+              className="font-bold text-[16px] pt-[32px]"
+            >
+              性別
+            </FormLabel>
+            <RadioGroup
+              aria-label="gender"
+              name="gender"
+              value={filter}
+              onChange={handleChange}
+            >
               <FormControlLabel
                 value="total"
                 control={<Radio />}
@@ -127,7 +162,6 @@ export default function Sidebar({ onChange }: SidebarProps) {
             </RadioGroup>
           </FormControl>
         </ListItem>
-        <Divider />
       </List>
     </div>
   );

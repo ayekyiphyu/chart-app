@@ -29,6 +29,7 @@ interface CityDataResponse {
 const API_KEY = "TeJMKn1SzMISYGHtaAfdKwxpTFaQINogLBSiHtyx";
 const BASE_URL = "https://opendata.resas-portal.go.jp";
 const endPoint = "api/v1/cities";
+const HYOGO_PREF_CODE = 28; // Hyogo Prefecture code
 
 export default function CityData() {
   const [cityData, setCityData] = useState<CityDataResponse[]>([]);
@@ -46,7 +47,13 @@ export default function CityData() {
           },
         });
         console.log("API Response:", response.data); // Log API response
-        setCityData(response.data.result);
+
+        // Filter cities to only include those in Hyogo Prefecture
+        const hyogoCities = response.data.result.filter(
+          (city: CityDataResponse) => city.prefCode === HYOGO_PREF_CODE
+        );
+
+        setCityData(hyogoCities);
       } catch (error) {
         console.error("API Error:", error); // Log error details
         setError(
