@@ -1,10 +1,3 @@
-# Getting Started with Create React App
-
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
-
-## Available Scripts
-
-In the project directory, you can run:
 
 ### `npm start`
 
@@ -12,9 +5,17 @@ Runs the app in the development mode.\
 Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
 
 
-### username and password
+### ログイン情報
 
-username : test@gmail.com
-password: 1234
+- ユーザー名: test@gmail.com
+- パスワード: 1234
+
+
+### 実装内容
+- 兵庫県のデータを一覧で表示し、グラフにするように実装しました。
+
+
+
+
 
 
