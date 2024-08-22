@@ -4,6 +4,8 @@
 - npm run dev を使ってください。
 - chartについてはrechartをつかう
 - twlindcss, MUIを使う
+- RESAS APIを実装
+- React Next.js, TypeScript を利用して実装する
 Runs the app in the development mode.\
 Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
 
