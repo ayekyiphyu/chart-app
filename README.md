@@ -20,6 +20,12 @@ Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
 - 兵庫県のデータを一覧で表示し、グラフにするように実装しました。
 
 
+## API通信　※
+
+![image](https://github.com/user-attachments/assets/55f00458-caba-43f8-9bac-fee80e9aa277)
+
+兵庫県についてはResponseしましたけど、lineChartに表示するのはちょっとび妙になっています。
+
 
 
 
