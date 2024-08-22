@@ -5,9 +5,11 @@ import {
   FormLabel,
   List,
   ListItem,
+  Link as MuiLink,
   Radio,
   RadioGroup,
 } from "@mui/material";
+import NextLink from "next/link";
 import React, { useState } from "react";
 
 interface SidebarProps {
@@ -20,7 +22,7 @@ export default function Sidebar({ onChange }: SidebarProps) {
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const value = (event.target as HTMLInputElement).value;
     setSelectedValue(value);
-    onChange(value); // Notify the parent component of the change
+    onChange(value);
   };
 
   return (
@@ -28,6 +30,13 @@ export default function Sidebar({ onChange }: SidebarProps) {
       <h2 className="font-bold text-[18px] pt-[24px] pb-[32px] pl-[24px]">
         フィルター
       </h2>
+      <p className="pl-[15px]">
+        <NextLink href="/city" passHref>
+          <MuiLink className="text-blue-500 hover:underline">
+            都道府県一覧
+          </MuiLink>
+        </NextLink>
+      </p>
       <List>
         <ListItem>
           <FormControl component="fieldset">

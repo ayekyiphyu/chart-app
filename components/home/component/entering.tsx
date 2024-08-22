@@ -42,7 +42,6 @@ const endPoint = "api/v1/employEducation/localjobAcademic/toTransition";
 
 interface EnteringDataPageProps {
   filter: string;
-  prefectureCd: number;
   classification: string;
   displayType: string;
   gender: number;
@@ -50,12 +49,12 @@ interface EnteringDataPageProps {
 
 export default function EnteringDataPage({
   filter,
-  prefectureCd,
   classification,
   displayType,
   gender,
 }: EnteringDataPageProps) {
   const [data, setData] = useState<DataPoint[]>([]);
+  const hyogoPrefectureCd = 28; // Prefecture code for Hyogo
 
   useEffect(() => {
     const fetchData = async () => {
@@ -66,7 +65,7 @@ export default function EnteringDataPage({
             "Content-Type": "application/json",
           },
           params: {
-            prefecture_cd: prefectureCd,
+            prefecture_cd: hyogoPrefectureCd,
             displayMethod: 1,
             matter: 0,
             classification: classification,
@@ -125,7 +124,7 @@ export default function EnteringDataPage({
     };
 
     fetchData();
-  }, [prefectureCd, classification, displayType, gender]);
+  }, [classification, displayType, gender]);
 
   const chartData = {
     labels: data.map((item) => item.cityName),
