@@ -4,6 +4,11 @@
 - cd my-app
 - npm start
 
+# git 
+- main (branch)
+ - 追加の場合には #issue を切ります
+ - refactorの場合には #refactor を切ります
+
 # CSS 
 - tailwind Css install 
 - this project is use to pure css inside style sheet
