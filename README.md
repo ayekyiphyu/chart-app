@@ -4,6 +4,9 @@
 - 今回はMUIを削除
 - styleについてはFrameworkを使わないです。
 - ResasAPIを利用して兵庫県のデータを標示
+- npm install
+- npm run dev
+- npm run build 
   
 
 ### RESASについて
