@@ -1,7 +1,16 @@
-import { useEffect, useState } from "react";
-import { BarChart, Bar, XAxis, YAxis, Tooltip, CartesianGrid, Legend, ResponsiveContainer } from "recharts";
-import { DataPoint, FetchDataParams } from "@/api/entering/type";
+import { DataPoint } from "@/api/entering/type";
 import { fetchData } from "@/api/entering/useGetLocalJobAcademicToTransition";
+import { useEffect, useState } from "react";
+import {
+  Bar,
+  BarChart,
+  CartesianGrid,
+  Legend,
+  ResponsiveContainer,
+  Tooltip,
+  XAxis,
+  YAxis,
+} from "recharts";
 
 export default function EnteringDataPage({
   filter,
@@ -11,7 +20,9 @@ export default function EnteringDataPage({
   displayType,
   gender,
 }: DataPoint) {
-  const [data, setData] = useState<{ label: string; data: { year: number; value: number }[] }[]>([]);
+  const [data, setData] = useState<
+    { label: string; data: { year: number; value: number }[] }[]
+  >([]);
   const hyogoPrefectureCd = 28;
 
   useEffect(() => {
@@ -39,14 +50,16 @@ export default function EnteringDataPage({
   // Prepare data for chart
   const years = data.flatMap((item) => item.data.map((d) => d.year));
   const chartData = years.reduce((acc, year) => {
-    const entry = { year: year.toString() };
+    const entry: { year: number; [key: string]: number } = {
+      year: parseInt(year.toString()),
+    };
     data.forEach((dataset) => {
       const value = dataset.data.find((d) => d.year === year)?.value || 0;
       entry[dataset.label] = value;
     });
     acc.push(entry);
     return acc;
-  }, [] as { year: string; [key: string]: number }[]);
+  }, [] as { year: number; [key: string]: number }[]);
 
   return (
     <div style={{ width: "100%", height: "400px", marginTop: "32px" }}>
@@ -78,8 +91,8 @@ export default function EnteringDataPage({
 function getColor(label: string): string {
   // You can define different colors for different labels
   const colors: { [key: string]: string } = {
-    "兵庫県": "#8884d8",
-    "全国平均": "#82ca9d",
+    兵庫県: "#8884d8",
+    全国平均: "#82ca9d",
   };
   return colors[label] || "#8884d8";
 }
