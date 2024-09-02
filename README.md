@@ -1,12 +1,17 @@
 ### プロジェクトについて 
 
 - Create react Project
+- 今回はMUIを削除
 - styleについてはFrameworkを使わないです。
 - ResasAPIを利用して兵庫県のデータを標示
   
 
 ### RESASについて
  - city はちゃんと表示する
+
+### loginについて
+- UserName : test@gmail.com
+- password : 1234
 
 ### 不安点について
 - https://opendata.resas-portal.go.jp/docs/api/v1/employEducation/localjobAcademic/toTransition.html ←　ののAPIですが、Responseにはちゃんとデータは表示しますけど、Graphに表示されていないことはまたく理解できない。
