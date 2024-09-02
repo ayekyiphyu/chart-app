@@ -4,7 +4,7 @@ import Sidebar from "@/components/sidebar";
 import { useState } from "react";
 
 export default function Entering() {
-  const titleStyle = {
+  const titleStyle: React.CSSProperties = {
     backgroundColor: "#1E293B",
     color: "#ffffff",
     height: "48px",
@@ -15,21 +15,21 @@ export default function Entering() {
     alignItems: "center",
   };
 
-  const containerStyle = {
+  const containerStyle: React.CSSProperties = {
     width: "100%",
     height: "100vh",
   };
 
-  const gridContainerStyle = {
+  const gridContainerStyle: React.CSSProperties = {
     display: "flex",
     gap: "16px",
   };
 
-  const sidebarStyle = {
+  const sidebarStyle: React.CSSProperties = {
     width: "299px",
   };
 
-  const contentStyle = {
+  const contentStyle: React.CSSProperties = {
     width: "75%",
     background: "#ffffff",
     marginLeft: "48px",
@@ -38,7 +38,7 @@ export default function Entering() {
     height: "490px",
   };
 
-  const paperStyle = {
+  const paperStyle: React.CSSProperties = {
     padding: "16px",
     border: "1px solid #ddd",
     borderRadius: "4px",
@@ -46,13 +46,13 @@ export default function Entering() {
 
   const { user } = useUser();
 
-  const [filter, setFilter] = useState("education");
-  const [classification, setClassification] = useState("1");
-  const [displayType, setDisplayType] = useState("10");
-  const [gender, setGender] = useState(0);
-  const [matter, setMatter] = useState(0);
-  const [prefecture_cd] = useState(28);
-  const [displayMethod, setDisplayMethod] = useState(0);
+  const [filter, setFilter] = useState<string>("education");
+  const [classification, setClassification] = useState<string>("1");
+  const [displayType, setDisplayType] = useState<string>("10");
+  const [gender, setGender] = useState<string>("0");
+  const [matter, setMatter] = useState<string>("0");
+  const [prefecture_cd] = useState<number>(28);
+  const [displayMethod, setDisplayMethod] = useState<number>(0);
 
   const handleSidebarChange = (name: string, value: string) => {
     switch (name) {
@@ -66,10 +66,10 @@ export default function Entering() {
         setDisplayType(value);
         break;
       case "gender":
-        setGender(Number(value));
+        setGender(value);
         break;
       case "matter":
-        setMatter(Number(value));
+        setMatter(value);
         break;
       case "displayMethod":
         setDisplayMethod(Number(value));
@@ -97,9 +97,10 @@ export default function Entering() {
               displayType={displayType}
               classification={classification}
               matter={matter}
-              displayMethod={displayMethod}
-              gender={gender} 
-              filter={filter}            />
+              displayMethod={displayMethod.toString()} // Ensure this matches EnteringDataPage's expected type
+              gender={gender}
+              filter={filter}
+            />
           </div>
         </div>
       </div>

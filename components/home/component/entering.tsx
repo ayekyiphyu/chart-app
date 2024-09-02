@@ -1,10 +1,11 @@
-import { DataPoint } from "@/api/entering/type";
+import { DataItem, FetchDataParams } from "@/api/entering/type";
 import { fetchData } from "@/api/entering/useGetLocalJobAcademicToTransition";
 import { useEffect, useState } from "react";
 import {
   Bar,
   BarChart,
   CartesianGrid,
+  LabelList,
   Legend,
   ResponsiveContainer,
   Tooltip,
@@ -12,6 +13,7 @@ import {
   YAxis,
 } from "recharts";
 
+// Ensure that the props received match the FetchDataParams and any additional required props
 export default function EnteringDataPage({
   filter,
   displayMethod,
@@ -19,16 +21,14 @@ export default function EnteringDataPage({
   classification,
   displayType,
   gender,
-}: DataPoint) {
-  const [data, setData] = useState<
-    { label: string; data: { year: number; value: number }[] }[]
-  >([]);
+}: FetchDataParams & { filter: string }) {
+  const [data, setData] = useState<DataItem[]>([]);
   const hyogoPrefectureCd = 28;
 
   useEffect(() => {
     const fetchAndSetData = async () => {
       try {
-        const response = await fetchData({
+        const fetchedData = await fetchData({
           prefecture_cd: hyogoPrefectureCd,
           displayMethod,
           matter,
@@ -37,8 +37,7 @@ export default function EnteringDataPage({
           gender,
         });
 
-        // Assuming response is directly the result with changes
-        setData(response.result.changes);
+        setData(fetchedData);
       } catch (error) {
         console.error("Failed to fetch data", error);
       }
@@ -47,19 +46,18 @@ export default function EnteringDataPage({
     fetchAndSetData();
   }, [displayMethod, matter, classification, displayType, gender]);
 
-  // Prepare data for chart
-  const years = data.flatMap((item) => item.data.map((d) => d.year));
-  const chartData = years.reduce((acc, year) => {
-    const entry: { year: number; [key: string]: number } = {
-      year: parseInt(year.toString()),
-    };
+  const years = Array.from(
+    new Set(data.flatMap((item) => item.data.map((d) => d.year)))
+  );
+  console.log("years", years);
+  const chartData = years.map((year) => {
+    const entry: { year: number; [key: string]: number } = { year };
     data.forEach((dataset) => {
       const value = dataset.data.find((d) => d.year === year)?.value || 0;
       entry[dataset.label] = value;
     });
-    acc.push(entry);
-    return acc;
-  }, [] as { year: number; [key: string]: number }[]);
+    return entry;
+  });
 
   return (
     <div style={{ width: "100%", height: "400px", marginTop: "32px" }}>
@@ -79,7 +77,13 @@ export default function EnteringDataPage({
               dataKey={dataset.label}
               fill={getColor(dataset.label)}
               name={getLabel(filter)}
-            />
+            >
+              <LabelList
+                dataKey={dataset.label}
+                position="top"
+                style={{ fontSize: 12, fill: "#333" }}
+              />
+            </Bar>
           ))}
         </BarChart>
       </ResponsiveContainer>
@@ -89,7 +93,6 @@ export default function EnteringDataPage({
 
 // Utility functions to determine colors and labels
 function getColor(label: string): string {
-  // You can define different colors for different labels
   const colors: { [key: string]: string } = {
     兵庫県: "#8884d8",
     全国平均: "#82ca9d",
@@ -98,32 +101,19 @@ function getColor(label: string): string {
 }
 
 function getLabel(filter: string): string {
-  switch (filter) {
-    case "education":
-      return "Education";
-    case "employment":
-      return "Employment";
-    case "local":
-      return "Local";
-    case "outflow":
-      return "Outflow";
-    case "inflow":
-      return "Inflow";
-    case "netOutflow":
-      return "Net Outflow";
-    case "all":
-      return "All";
-    case "University":
-      return "University Entrance";
-    case "JuniorCollege":
-      return "Junior College Entrance";
-    case "total":
-      return "Total";
-    case "man":
-      return "Men";
-    case "women":
-      return "Women";
-    default:
-      return "";
-  }
+  const labels: { [key: string]: string } = {
+    education: "Education",
+    employment: "Employment",
+    local: "Local",
+    outflow: "Outflow",
+    inflow: "Inflow",
+    netOutflow: "Net Outflow",
+    all: "All",
+    University: "University Entrance",
+    JuniorCollege: "Junior College Entrance",
+    total: "Total",
+    man: "Men",
+    women: "Women",
+  };
+  return labels[filter] || "";
 }
