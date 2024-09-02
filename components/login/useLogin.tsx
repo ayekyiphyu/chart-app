@@ -1,14 +1,13 @@
 import { useUser } from "@/auth/auth";
-import { Box, Button, TextField, Typography } from "@mui/material";
 import Router from "next/router";
-import React, { useState } from "react";
+import { useState } from "react";
 
 export default function LoginPage() {
   const { setUser } = useUser();
   const [username, setUsername] = useState("test@gmail.com");
   const [password, setPassword] = useState("1234");
 
-  const handleSubmit = async (event: React.FormEvent) => {
+  const handleSubmit = async (event: { preventDefault: () => void }) => {
     event.preventDefault();
 
     if (username && password) {
@@ -19,71 +18,73 @@ export default function LoginPage() {
     }
   };
 
-  const boxstyle = {
+  const boxStyle: React.CSSProperties = {
     backgroundColor: "#ffffff",
     width: "480px",
     height: "auto",
     borderRadius: "12px",
     padding: "40px 80px",
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+  };
+
+  const formStyle = {
+    width: "100%",
+    marginTop: "16px",
+  };
+
+  const inputStyle = {
+    width: "100%",
+    padding: "12px",
+
+    borderRadius: "4px",
+    border: "1px solid #ccc",
+  };
+
+  const buttonStyle = {
+    width: "100%",
+    margin: "40px 0 0 0",
+    backgroundColor: "#2563EB",
+    color: "#fff",
+    border: "none",
+    borderRadius: "8px",
+    cursor: "pointer",
+    height: "42px",
   };
 
   return (
-    <div style={boxstyle}>
-      <div>
-        <Box
-          sx={{
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-            padding: "0px",
-          }}
-        >
-          <Typography component="h1" variant="h5">
-            ログイン
-          </Typography>
-          <Box
-            component="form"
-            onSubmit={handleSubmit}
-            noValidate
-            sx={{ mt: 1 }}
-          >
-            <TextField
-              margin="normal"
-              required
-              fullWidth
-              id="username"
-              label="メールアドレス"
-              name="username"
-              autoComplete="username"
-              autoFocus
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
-            />
-
-            <TextField
-              margin="normal"
-              required
-              fullWidth
-              name="password"
-              label="Password"
-              type="password"
-              id="password"
-              autoComplete="current-password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-            />
-            <Button
-              type="submit"
-              fullWidth
-              variant="contained"
-              color="primary"
-              sx={{ mt: 3, mb: 2, backgroundColor: "#2563EB" }}
-            >
-              ログイン
-            </Button>
-          </Box>
-        </Box>
-      </div>
+    <div style={boxStyle}>
+      <h1 className="font-bold text-[24px]">ログイン</h1>
+      <form onSubmit={handleSubmit} style={formStyle} noValidate>
+        <label className="font-bold text-[16px] ">メールアドレス</label>
+        <input
+          className="mt-[8px] mb-[24px]"
+          type="email"
+          id="username"
+          name="username"
+          placeholder="メールアドレス"
+          value={username}
+          onChange={(e) => setUsername(e.target.value)}
+          style={inputStyle}
+          required
+        />
+        <label className="pt-[24px] font-bold text-[16px]">パスワード</label>
+        <input
+          className="mt-[8px]"
+          type="password"
+          id="password"
+          name="password"
+          placeholder="Password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          style={inputStyle}
+          required
+        />
+        <button type="submit" style={buttonStyle}>
+          ログイン
+        </button>
+      </form>
     </div>
   );
 }

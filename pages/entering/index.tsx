@@ -1,9 +1,6 @@
 import { useUser } from "@/auth/auth";
 import EnteringDataPage from "@/components/home/component/entering";
 import Sidebar from "@/components/sidebar";
-import theme from "@/mui-theme.config";
-import { Box, Grid, Paper, Typography } from "@mui/material";
-import ThemeProvider from "@mui/material/styles/ThemeProvider";
 import { useState } from "react";
 
 export default function Entering() {
@@ -18,62 +15,94 @@ export default function Entering() {
     alignItems: "center",
   };
 
+  const containerStyle = {
+    width: "100%",
+    height: "100vh",
+  };
+
+  const gridContainerStyle = {
+    display: "flex",
+    gap: "16px",
+  };
+
+  const sidebarStyle = {
+    width: "299px",
+  };
+
+  const contentStyle = {
+    width: "75%",
+    background: "#ffffff",
+    marginLeft: "48px",
+    borderRadius: "8px",
+    marginTop: "32px",
+    height: "490px",
+  };
+
+  const paperStyle = {
+    padding: "16px",
+    border: "1px solid #ddd",
+    borderRadius: "4px",
+  };
+
   const { user } = useUser();
 
-  // State variables for the filter and additional parameters
   const [filter, setFilter] = useState("education");
-  const [classification, setClassification] = useState("1"); // Default value "1" for education
-  const [displayType, setDisplayType] = useState("10"); // Default value "10" for all education
-  const [gender, setGender] = useState(0); // Default value 0 for all genders
+  const [classification, setClassification] = useState("1");
+  const [displayType, setDisplayType] = useState("10");
+  const [gender, setGender] = useState(0);
+  const [matter, setMatter] = useState(0);
+  const [prefecture_cd] = useState(28);
+  const [displayMethod, setDisplayMethod] = useState(0);
 
-  // Handle filter change and update parameters accordingly
-  const handleSidebarChange = (value: string) => {
-    setFilter(value);
-
-    // Update other parameters based on the selected filter
-    switch (value) {
-      case "employment":
-        setClassification("2"); // Set to "2" for employment
-        setDisplayType("20"); // For employment display type
-        setGender(0); // Set to all genders
+  const handleSidebarChange = (name: string, value: string) => {
+    switch (name) {
+      case "filter":
+        setFilter(value);
         break;
-      case "education":
-        setClassification("1"); // Set to "1" for education
-        setDisplayType("10"); // For all education display type
-        setGender(0); // Set to all genders
+      case "classification":
+        setClassification(value);
+        break;
+      case "displayType":
+        setDisplayType(value);
+        break;
+      case "gender":
+        setGender(Number(value));
+        break;
+      case "matter":
+        setMatter(Number(value));
+        break;
+      case "displayMethod":
+        setDisplayMethod(Number(value));
         break;
       default:
-        setClassification("1");
-        setDisplayType("10");
-        setGender(0);
         break;
     }
   };
 
   return (
-    <ThemeProvider theme={theme}>
-      <Box sx={{ width: "100%", height: "100vh" }}>
-        <Box sx={titleStyle}>
-          <Typography variant="h6">タイトル</Typography>
-          <Typography variant="body1">{user?.email || "No Email"}</Typography>
-        </Box>
-        <Grid container spacing={3} sx={{ padding: 3 }}>
-          <Grid item xs={3}>
-            <Sidebar onChange={handleSidebarChange} />
-          </Grid>
-          <Grid item xs={9}>
-            <Paper elevation={3} sx={{ padding: 3 }}>
-              <Typography variant="h5">兵庫県の進学者数の推移</Typography>
-              <EnteringDataPage
-                filter={filter}
-                classification={classification}
-                displayType={displayType}
-                gender={gender}
-              />
-            </Paper>
-          </Grid>
-        </Grid>
-      </Box>
-    </ThemeProvider>
+    <div style={containerStyle}>
+      <div style={titleStyle}>
+        <span>タイトル</span>
+        <span>{user?.email || "No Email"}</span>
+      </div>
+      <div style={gridContainerStyle}>
+        <div style={sidebarStyle}>
+          <Sidebar onChange={handleSidebarChange} />
+        </div>
+        <div style={contentStyle}>
+          <div style={paperStyle}>
+            <h5>兵庫県の進学者数の推移</h5>
+            <EnteringDataPage
+              prefecture_cd={prefecture_cd}
+              displayType={displayType}
+              classification={classification}
+              matter={matter}
+              displayMethod={displayMethod}
+              gender={gender} 
+              filter={filter}            />
+          </div>
+        </div>
+      </div>
+    </div>
   );
 }
