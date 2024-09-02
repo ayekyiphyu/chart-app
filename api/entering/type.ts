@@ -21,6 +21,7 @@ export interface DataPoint {
   classification: string;
   displayType: string;
   gender: number;
+  filter: string;
 }
 
 export interface OptionsValue {
@@ -28,11 +29,11 @@ export interface OptionsValue {
   value: number;
 }
 
-// export type FetchDataParams = {
-//   prefecture_cd: number;
-//   displayMethod: number;
-//   matter: number;
-//   classification: string;
-//   displayType: string;
-//   gender: number;
-// };
+export type FetchDataParams = {
+  prefecture_cd: number;
+  displayMethod: number;
+  matter: number;
+  classification: string;
+  displayType: string;
+  gender: number;
+};
