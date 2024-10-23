@@ -47,70 +47,83 @@ export default function SignUpPage() {
   return (
     <Box
       sx={{
-        width: "100%",
-        maxWidth: 400,
-        margin: "0 auto",
-        padding: 4,
+        height: "100vh", // Make the container take up full screen height
         display: "flex",
-        flexDirection: "column",
-        gap: 2,
+        justifyContent: "center", // Horizontally center the form
+        alignItems: "center", // Vertically center the form
+       
       }}
     >
-      <Typography variant="h4" component="h1" className="font-bold">
-        Sign Up
-      </Typography>
-      <TextField
-        label="Username"
-        variant="outlined"
-        fullWidth
-        required
-        value={username}
-        onChange={(e) => setUsername(e.target.value)}
-        error={!!errors.username}
-        helperText={errors.username?._errors[0]}
-      />
-      <TextField
-        label="Email"
-        type="email"
-        variant="outlined"
-        fullWidth
-        required
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
-        error={!!errors.email}
-        helperText={errors.email?._errors[0]}
-      />
-      <TextField
-        label="Password"
-        type="password"
-        variant="outlined"
-        fullWidth
-        required
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
-        error={!!errors.password}
-        helperText={errors.password?._errors[0]}
-      />
-      <TextField
-        label="Confirm Password"
-        type="password"
-        variant="outlined"
-        fullWidth
-        required
-        value={confirmPassword}
-        onChange={(e) => setConfirmPassword(e.target.value)}
-        error={!!errors.confirmPassword}
-        helperText={errors.confirmPassword?._errors[0]}
-      />
-      <Button
-        variant="contained"
-        color="primary"
-        fullWidth
-        sx={{ mt: 2 }}
-        onClick={handleSignUp}
+      <Box
+        sx={{
+          width: "100%",
+          maxWidth: 400,
+          padding: 4,
+          display: "flex",
+          flexDirection: "column",
+          gap: 2,
+          backgroundColor: "#f0f4f8", // Light background color for the form
+          borderRadius: 2, // Rounded corners
+          border:"2px solid #dddddd"
+          
+        }}
       >
-        Sign Up
-      </Button>
+        <Typography variant="h4" component="h1" sx={{ fontWeight: "bold" }}>
+          Sign Up
+        </Typography>
+        <TextField
+          label="Username"
+          variant="outlined"
+          fullWidth
+          required
+          value={username}
+          onChange={(e) => setUsername(e.target.value)}
+          error={!!errors.username}
+          helperText={errors.username?._errors[0]}
+        />
+        <TextField
+          label="Email"
+          type="email"
+          variant="outlined"
+          fullWidth
+          required
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          error={!!errors.email}
+          helperText={errors.email?._errors[0]}
+        />
+        <TextField
+          label="Password"
+          type="password"
+          variant="outlined"
+          fullWidth
+          required
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          error={!!errors.password}
+          helperText={errors.password?._errors[0]}
+        />
+        <TextField
+          label="Confirm Password"
+          type="password"
+          variant="outlined"
+          fullWidth
+          required
+          value={confirmPassword}
+          onChange={(e) => setConfirmPassword(e.target.value)}
+          error={!!errors.confirmPassword}
+          helperText={errors.confirmPassword?._errors[0]}
+        />
+        <Button
+          variant="contained"
+          color="primary"
+          fullWidth
+          sx={{ mt: 2 }}
+          onClick={handleSignUp}
+        >
+          Sign Up
+        </Button>
+      </Box>
     </Box>
   );
 }
