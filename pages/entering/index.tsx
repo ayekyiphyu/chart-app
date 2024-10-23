@@ -47,17 +47,19 @@ export default function Entering() {
           color: "#ffffff",
           height: "48px",
           fontSize: "20px",
-          padding: "9px 16px",
+          padding: "30px",
           display: "flex",
           justifyContent: "space-between",
           alignItems: "center",
         }}
       >
         <Typography variant="h6">Welcome to my page</Typography>
-        <Typography variant="h6">{user?.email || "No Email"}</Typography>
-        <MUILink href="/signOut" color="inherit" underline="none">
+       <div className="flex">
+       <Typography variant="h6">{user?.email || "No Email"}</Typography>
+        <MUILink href="/signOut" color="inherit" underline="none" className="pl-[2rem]">
           SignOut
         </MUILink>
+       </div>
       </Box>
       <Box sx={{ display: "flex", gap: "16px" }}>
         <Box sx={{ width: "299px" }}>
