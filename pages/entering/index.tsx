@@ -1,51 +1,11 @@
 import { useUser } from "@/auth/auth";
 import EnteringDataPage from "@/components/home/component/entering";
 import Sidebar from "@/components/sidebar";
+import { Box, Link as MUILink, Paper, Typography } from "@mui/material";
 import { useState } from "react";
 
 export default function Entering() {
-  const titleStyle: React.CSSProperties = {
-    backgroundColor: "#1E293B",
-    color: "#ffffff",
-    height: "48px",
-    fontSize: "20px",
-    padding: "9px 16px",
-    display: "flex",
-    justifyContent: "space-between",
-    alignItems: "center",
-  };
-
-  const containerStyle: React.CSSProperties = {
-    width: "100%",
-    height: "100vh",
-  };
-
-  const gridContainerStyle: React.CSSProperties = {
-    display: "flex",
-    gap: "16px",
-  };
-
-  const sidebarStyle: React.CSSProperties = {
-    width: "299px",
-  };
-
-  const contentStyle: React.CSSProperties = {
-    width: "75%",
-    background: "#ffffff",
-    marginLeft: "48px",
-    borderRadius: "8px",
-    marginTop: "32px",
-    height: "490px",
-  };
-
-  const paperStyle: React.CSSProperties = {
-    padding: "16px",
-    border: "1px solid #ddd",
-    borderRadius: "4px",
-  };
-
   const { user } = useUser();
-
   const [filter, setFilter] = useState<string>("education");
   const [classification, setClassification] = useState<string>("1");
   const [displayType, setDisplayType] = useState<string>("10");
@@ -80,30 +40,61 @@ export default function Entering() {
   };
 
   return (
-    <div style={containerStyle}>
-      <div style={titleStyle}>
-        <span>タイトル</span>
-        <span>{user?.email || "No Email"}</span>
-      </div>
-      <div style={gridContainerStyle}>
-        <div style={sidebarStyle}>
+    <Box sx={{ width: "100%", height: "100vh" }}>
+      <Box
+        sx={{
+          backgroundColor: "#1E293B",
+          color: "#ffffff",
+          height: "48px",
+          fontSize: "20px",
+          padding: "9px 16px",
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+        }}
+      >
+        <Typography variant="h6">Welcome to my page</Typography>
+        <Typography variant="h6">{user?.email || "No Email"}</Typography>
+        <MUILink href="/signOut" color="inherit" underline="none">
+          SignOut
+        </MUILink>
+      </Box>
+      <Box sx={{ display: "flex", gap: "16px" }}>
+        <Box sx={{ width: "299px" }}>
           <Sidebar onChange={handleSidebarChange} />
-        </div>
-        <div style={contentStyle}>
-          <div style={paperStyle}>
-            <h5>兵庫県の進学者数の推移</h5>
+        </Box>
+        <Box
+          sx={{
+            width: "75%",
+            backgroundColor: "#ffffff",
+            marginLeft: "48px",
+            borderRadius: "8px",
+            marginTop: "32px",
+            height: "490px",
+            padding: "16px",
+            border: "1px solid #ddd",
+          }}
+        >
+          <Paper
+            sx={{
+              padding: "16px",
+              border: "1px solid #ddd",
+              borderRadius: "4px",
+            }}
+          >
+            <Typography variant="h5">兵庫県の進学者数の推移</Typography>
             <EnteringDataPage
               prefecture_cd={prefecture_cd}
               displayType={displayType}
               classification={classification}
               matter={matter}
-              displayMethod={displayMethod.toString()} // Ensure this matches EnteringDataPage's expected type
+              displayMethod={displayMethod.toString()}
               gender={gender}
               filter={filter}
             />
-          </div>
-        </div>
-      </div>
-    </div>
+          </Paper>
+        </Box>
+      </Box>
+    </Box>
   );
 }

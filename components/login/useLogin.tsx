@@ -1,20 +1,29 @@
 import { useUser } from "@/auth/auth";
+import Link from "next/link";
 import Router from "next/router";
 import { useState } from "react";
 
+// Mock user database
+const users = [{ username: "test@example.com", password: "123" }];
+
 export default function LoginPage() {
   const { setUser } = useUser();
-  const [username, setUsername] = useState("test@gmail.com");
-  const [password, setPassword] = useState("1234");
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
 
   const handleSubmit = async (event: { preventDefault: () => void }) => {
     event.preventDefault();
 
-    if (username && password) {
+    const user = users.find(
+      (user) => user.username === username && user.password === password
+    );
+
+    if (user) {
       setUser({ name: "User", email: username });
       Router.push("/entering");
     } else {
-      console.error("Username or password is missing");
+      setError("Invalid username or password");
     }
   };
 
@@ -37,7 +46,6 @@ export default function LoginPage() {
   const inputStyle = {
     width: "100%",
     padding: "12px",
-
     borderRadius: "4px",
     border: "1px solid #ccc",
   };
@@ -57,7 +65,7 @@ export default function LoginPage() {
     <div style={boxStyle}>
       <h1 className="font-bold text-[24px]">ログイン</h1>
       <form onSubmit={handleSubmit} style={formStyle} noValidate>
-        <label className="font-bold text-[16px] ">メールアドレス</label>
+        <label className="font-bold text-[16px]">メールアドレス</label>
         <input
           className="mt-[8px] mb-[24px]"
           type="email"
@@ -81,9 +89,16 @@ export default function LoginPage() {
           style={inputStyle}
           required
         />
+        {error && <p style={{ color: "red" }}>{error}</p>}
         <button type="submit" style={buttonStyle}>
           ログイン
         </button>
+        <p className="text-center pt-[1rem]">
+          Don't have an account? &nbsp;
+          <Link href="/signUp" className="m-r[2rem] font-bold underline">
+            SignUp
+          </Link>
+        </p>
       </form>
     </div>
   );
